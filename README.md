@@ -38,7 +38,7 @@
 
 1. 上一下 javascript Testing [课程](https://www.udacity.com/course/ud549)
 
-2. 下载[必要的项目资源](http://github.com/udacity/frontend-nanodegree-feedreader))
+2. 下载[必要的项目资源](http://github.com/udacity/frontend-nanodegree-feedreader)
 
 3. 在浏览器里面查看一下应用的功能
 
