@@ -26,8 +26,9 @@ $(function() {
          * 编写一个测试遍历 allFeeds 对象里面的所有的源来保证有链接字段而且链接不是空的。
          */
         it('sources are not null', function() {
+            var regularExpressionUrl = /^((ht|f)tps?):\/\/([\w\-]+(\.[\w\-]+)*\/)*[\w\-]+(\.[\w\-]+)*\/?(\?([\w\-\.,@?^=%&:\/~\+#]*)+)?/; // 检查 URL 格式是否正确的正规表达式
             allFeeds.forEach(function(item) {
-                expect(item.url).not.toBe('');
+                expect(item.url).toMatch(regularExpressionUrl); // 检查格式;
             });
         });
 
@@ -75,13 +76,10 @@ $(function() {
          * 和异步的 done() 函数。
          */
          beforeEach(function(done) {
-            loadFeed(0, function() {
-                done();
-            });            
+            loadFeed(0, done());            
          })
-         it('have element(s) when loadFeed is called', function(done) {
+         it('have element(s) when loadFeed is called', function() {
             expect($('.feed').find('.entry').length).not.toBe(0);
-            done();
          })
     })
     /* TODO: 写一个叫做 "New Feed Selection" 的测试用例 */
@@ -90,15 +88,24 @@ $(function() {
          * 写一个测试保证当用 loadFeed 函数加载一个新源的时候内容会真的改变。
          * 记住，loadFeed() 函数是异步的。
          */
-         var old = $('.feed').html();
-         beforeEach(function(done) {
-            loadFeed(0, function() {
-                done();
-            });            
-         })
-         it('will change content when loadFeed is called', function(done) {
-            expect($('.feed').html()).not.toEqual(old);
-            done();
-         })
-     });
+         var oldValue,
+            newValue;
+        beforeEach(function(done) {
+            loadFeed(1, function() { // 匿名函数，当loadFeed返回数据后执行
+                console.log(1);
+                oldValue = $('.feed').html();// 在这里获取内容1
+                // 获取完毕后开始请求新的数据
+                loadFeed(0, function() {
+                    console.log(2);
+                    newValue = $('.feed').html();// 获取内容2
+                    // 执行done，通知下方it开始测试（因为到现在为止，两次请求的数据才真正全部返回）
+                    done()
+                });
+            });
+        });
+        it("load container1", function() {
+            console.log(3);
+            expect(newValue).not.toEqual(oldValue);// 比较
+        });
+    });
 }());

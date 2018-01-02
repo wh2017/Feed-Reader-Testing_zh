@@ -35,7 +35,6 @@ function init() {
  * 这个回调函数会在所有事情都成功完成之后被调用。
 */
  function loadFeed(id, cb) {
-    console.log(id, 123, allFeeds);
      var feedUrl = allFeeds[id].url,
          feedName = allFeeds[id].name;
 
@@ -45,7 +44,6 @@ function init() {
        data: JSON.stringify({url: feedUrl}),
        contentType:"application/json",
        success: function (result, status){
-
                  var container = $('.feed'),
                      title = $('.header-title'),
                      entries = result.feed.entries,
