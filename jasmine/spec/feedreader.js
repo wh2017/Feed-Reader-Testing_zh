@@ -76,7 +76,7 @@ $(function() {
          * 和异步的 done() 函数。
          */
          beforeEach(function(done) {
-            loadFeed(0, done());            
+            loadFeed(0, done);            
          })
          it('have element(s) when loadFeed is called', function() {
             expect($('.feed').find('.entry').length).not.toBe(0);
@@ -92,11 +92,9 @@ $(function() {
             newValue;
         beforeEach(function(done) {
             loadFeed(1, function() { // 匿名函数，当loadFeed返回数据后执行
-                console.log(1);
                 oldValue = $('.feed').html();// 在这里获取内容1
                 // 获取完毕后开始请求新的数据
                 loadFeed(0, function() {
-                    console.log(2);
                     newValue = $('.feed').html();// 获取内容2
                     // 执行done，通知下方it开始测试（因为到现在为止，两次请求的数据才真正全部返回）
                     done()
@@ -104,7 +102,6 @@ $(function() {
             });
         });
         it("load container1", function() {
-            console.log(3);
             expect(newValue).not.toEqual(oldValue);// 比较
         });
     });
